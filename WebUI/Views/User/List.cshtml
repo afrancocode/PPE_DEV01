@@ -1,0 +1,41 @@
+﻿@model EstimatorApp.WebUI.Models.UsersListViewModel
+@{
+    ViewBag.Title = "Users List";
+}
+<div class="container">
+    @ViewBag.Confirmation
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Users List</h3>
+            <div class="pull-right">
+                @Html.ActionLink("Create New User", "Edit", new { userID = 0 }, new { @class = "btn btn-success btn-sm" })
+            </div>
+            <div class=".table-responsive">
+                <table id="mytable" class="table table-bordred table-striped">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Edit | Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model.UsersList)
+                        {
+                            <tr>
+                                <td>@user.Username</td>
+                                <td>@user.Name</td>
+                                <td>@user.Role</td>
+                                <td>@Html.ActionLink("Edit", "Edit", new { userID = user.UserID }) | @Html.ActionLink("Delete", "Delete", new { userID = user.UserID }, new { onclick = "return confirm('Are you sure you wish to delete this user?');" }) </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="footer">
+            <p>&copy; 2015. EBS - Estimator App, All Rights Reserved &middot; </p>
+        </div>
+    </div>
+</div>
