@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using Ninject;
 using EstimatorApp.Repository.Concrete;
-using EstimatorApp.Repository.Abstract;
+using EstimatorApp.Domain.Abstract;
 
 namespace EstimatorApp.WebUI.Infrastructure
 {
@@ -29,7 +29,8 @@ namespace EstimatorApp.WebUI.Infrastructure
 
         private void AddBindings()
         {
-            kernel.Bind<IUserRepository>().To<UserRepository>().InSingletonScope();
+            kernel.Bind<IUsersRepository>().To<UsersRepository>().InSingletonScope();
+            kernel.Bind<IRolesRepository>().To<RolesRepository>().InSingletonScope();
         }
     }
 }

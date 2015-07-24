@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
-using EstimatorApp.Domain;
+using EstimatorApp.Domain.Entities;
+using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace EstimatorApp.WebUI.Models
 {
     public class UsersListViewModel
     {
-        public IEnumerable<Users> UsersList { get; set; }
+        public IEnumerable<User> UsersList { get; set; }
     }
 }

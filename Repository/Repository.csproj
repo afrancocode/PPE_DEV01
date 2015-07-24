@@ -77,9 +77,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\IUserRepository.cs" />
-    <Compile Include="Concrete\DummyDBContext.cs" />
-    <Compile Include="Concrete\UserRepository.cs" />
+    <Compile Include="Concrete\DummyRolesDBContext.cs" />
+    <Compile Include="Concrete\DummyUserDBContext.cs" />
+    <Compile Include="Concrete\RolesRepository.cs" />
+    <Compile Include="Concrete\UsersRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

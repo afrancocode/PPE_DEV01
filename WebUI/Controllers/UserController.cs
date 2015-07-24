@@ -1,18 +1,20 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using EstimatorApp.Domain;
-using EstimatorApp.Repository.Abstract;
+using EstimatorApp.Domain.Entities;
+using EstimatorApp.Domain.Abstract;
 using EstimatorApp.WebUI.Models;
 
 namespace EstimatorApp.WebUI.Controllers
 {
     public class UserController : Controller
     {
-        private IUserRepository repository;
-
-        public UserController(IUserRepository userRepository)
+        private IUsersRepository repository;
+        private IRolesRepository rolesRepository;
+        
+        public UserController(IUsersRepository userRepository, IRolesRepository rolesRepository)
         {
             this.repository = userRepository;
+            this.rolesRepository = rolesRepository;
         }
 
         public ViewResult List()
@@ -21,11 +23,12 @@ namespace EstimatorApp.WebUI.Controllers
             return View(model);
         }
 
-        public ViewResult Edit(int userID = 0)
+        public ActionResult Edit(int userID = 0)
         {
-            Users userItem = new Users();
+            User userItem = new User();
             if (userID != 0)
             {
+                ViewBag.Edit = "Edit";
                 userItem = repository.UsersList.FirstOrDefault(m => m.UserID == userID);
             }
             return View(userItem);
@@ -39,7 +42,7 @@ namespace EstimatorApp.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(Users userToSave)
+        public ActionResult Save(User userToSave)
         {
             if (ModelState.IsValid)
             {

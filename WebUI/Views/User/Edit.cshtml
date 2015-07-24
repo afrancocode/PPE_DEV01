@@ -1,4 +1,4 @@
-﻿@model EstimatorApp.Domain.Users
+﻿@model EstimatorApp.Domain.Entities.User
 @{
     ViewBag.Title = "Create New User";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -42,23 +42,41 @@
         <label for="Password" class="col-sm-2 control-label">Password</label>
         <div class="col-sm-10">
             @Html.TextBoxFor(m => m.Password, null, new
-       {
-           @class = "form-control",
-           @id = "password",
-           @type = "password",
-           @placeholder = "Password"
-       })
+                   {
+                       @class = "form-control",
+                       @id = "txtPassword",
+                       @type = "password",
+                       @placeholder = "Password"
+                   })
+            <span id="spnPassword" class="form-control-addon" style="cursor:pointer;float:right">
+                <i id="icnPassword" class="glyphicon glyphicon-eye-open"></i>
+            </span>
         </div>
     </div>
-    <div class="form-group">
-        <label for="Role" class="col-sm-2 control-label">Role</label>
+    <div class="form-group" ng-app="ppcredentials" ng-controller="dropdownCtrl">
+        <label for="Role" class="col-sm-2 control-label">Role {{ selectedItem }} </label> 
         <div class="col-sm-10">
-            @Html.DropDownListFor(m => m.Role, items, new
-       {
-           @class = "form-control",
-           @id = "role",
-           @placeholder = "Role"
-       })
+            @if (ViewBag.Edit == "Edit")
+            {
+                @Html.TextBoxFor(m => m.Role.RoleName, null, new
+                    {
+                        @class = "form-control",
+                        @id = "role",
+                        @readonly = "readonly"
+                    });
+                @Html.HiddenFor(m => m.Role.RoleID)
+            }
+            else
+            {
+                @Html.DropDownListFor(m => m.Role.RoleName, items, new
+                    {
+                        @class = "form-control",
+                        @id = "role",
+                        @placeholder = "Role",
+                        @onChange = "onChangeDrop"
+                    });
+                @Html.HiddenFor(m => m.Role.RoleID, new { @Value = "0" })
+            }
         </div>
     </div>
     <div class="form-group">
@@ -76,6 +94,7 @@
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
             <input type="submit" value="Save" class="btn btn-success" />
+            <input type="button" value="Cancel" class="btn btn-danger" onclick="location.href='@Url.Action("List","User")';" />
         </div>
     </div>
 }

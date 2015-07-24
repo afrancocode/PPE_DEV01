@@ -1,19 +1,19 @@
 ﻿using System.Collections.Generic;
-using EstimatorApp.Repository.Abstract;
-using EstimatorApp.Domain;
+using EstimatorApp.Domain.Abstract;
+using EstimatorApp.Domain.Entities;
 
 namespace EstimatorApp.Repository.Concrete
 {
-    public class UserRepository : IUserRepository
+    public class UsersRepository : IUsersRepository
     {
-        private DummyDBContext userData = new DummyDBContext();
+        private DummyUserDBContext userData = new DummyUserDBContext();
 
-        public IEnumerable<Users> UsersList
+        public IEnumerable<User> UsersList
         {
             get { return userData.GetUsersList(); }
         }
 
-        public void SaveUser(Users user)
+        public void SaveUser(User user)
         {
             userData.SaveChanges(user);
         }
