@@ -8,18 +8,18 @@ namespace EstimatorApp.WebUI.Controllers
 {
     public class UserController : Controller
     {
-        private IUsersRepository repository;
+        private IUsersRepository usersRepository;
         private IRolesRepository rolesRepository;
         
-        public UserController(IUsersRepository userRepository, IRolesRepository rolesRepository)
+        public UserController(IUsersRepository usersRepository, IRolesRepository rolesRepository)
         {
-            this.repository = userRepository;
+            this.usersRepository = usersRepository;
             this.rolesRepository = rolesRepository;
         }
 
         public ViewResult List()
         {
-            UsersListViewModel model = new UsersListViewModel { UsersList = repository.UsersList };
+            ListViewModel model = new ListViewModel { UsersList = usersRepository.UsersList };
             return View(model);
         }
 
@@ -29,14 +29,20 @@ namespace EstimatorApp.WebUI.Controllers
             if (userID != 0)
             {
                 ViewBag.Edit = "Edit";
-                userItem = repository.UsersList.FirstOrDefault(m => m.UserID == userID);
+                ViewBag.Title = "Edit User";
+     
+                userItem = usersRepository.UsersList.FirstOrDefault(m => m.UserID == userID);
+            }
+            else
+            {
+                ViewBag.Title = "Create New User";
             }
             return View(userItem);
         }
 
         public ActionResult Delete(int userID)
         {
-            repository.DeleteUser(userID);
+            usersRepository.DeleteUser(userID);
             ViewBag.Confirmation = "User deleted successfully";
             return RedirectToAction("List");
         }
@@ -46,7 +52,7 @@ namespace EstimatorApp.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                repository.SaveUser(userToSave);
+                usersRepository.SaveUser(userToSave);
                 return RedirectToAction("List");
             }
             else

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using EstimatorApp.Domain.Entities;
+using EstimatorApp.Domain.Abstract;
 
 namespace EstimatorApp.Repository.Concrete
 {

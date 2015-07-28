@@ -1,100 +1,147 @@
 ﻿@model EstimatorApp.Domain.Entities.User
 @{
-    ViewBag.Title = "Create New User";
+    ViewBag.Title = ViewBag.Title;
     Layout = "~/Views/Shared/_Layout.cshtml";
     HtmlHelper.ClientValidationEnabled = false;
     HtmlHelper.UnobtrusiveJavaScriptEnabled = false;
-}
-@{
+
+    //this needs to be replaced for the Role class information
     var items = new List<SelectListItem>{
         new SelectListItem {Value = "Pricer", Text = "Pricer"},
         new SelectListItem {Value = "Estimator", Text = "Estimator"}
     };
 }
+<script src="~/Scripts/myEditScript.js"></script>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>User Information</strong>                       
+                </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm("Save", "User", FormMethod.Post, new { @class = "form-horizontal", ng_app = "ppcredentials", ng_controller = "dropdownCtrl" }))
+                    {
+                        @Html.HiddenFor(m => m.UserID)
+                        @Html.ValidationSummary()
+                        <div class="form-group">
+                            <label for="Name" class="col-sm-2 control-label">Name</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(m => m.Name, new
+                                       {
+                                           @class = "form-control",
+                                           @id = "name",
+                                           @placeholder = "Name"
+                                       })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Username" class="col-sm-2 control-label">Username</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(m => m.Username, new
+                                       {
+                                           @class = "form-control",
+                                           @id = "username",
+                                           @placeholder = "Username"
+                                       })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Password" class="col-sm-2 control-label">Password</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(m => m.Password, null, new
+                                       {
+                                           @class = "form-control",
+                                           @id = "txtPassword",
+                                           @type = "password",
+                                           @placeholder = "Password"
+                                       })
+                                <div id="spnPassword" class="form-control-addon" style="cursor:pointer;float:right">
+                                    <div id="icnPassword" class="glyphicon glyphicon-eye-open"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Role" class="col-sm-2 control-label">Role</label>
+                            <div class="col-sm-10">
+                                @if (ViewBag.Edit == "Edit")
+                                {
+                                    @Html.TextBoxFor(m => m.Role.RoleName, null, new
+                                           {
+                                               @class = "form-control",
+                                               @id = "role",
+                                               @readonly = "readonly"
+                                           });
+                                    @Html.HiddenFor(m => m.Role.RoleID)
+                                }
+                                else
+                                {
+                                    @Html.DropDownListFor(m => m.Role.RoleName, items, new
+                                           {
+                                               @class = "form-control",
+                                               @id = "role",
+                                               @placeholder = "Role",
+                                               ng_click = "onChangeDrop()"
+                                           });
+                                    @Html.HiddenFor(m => m.Role.RoleID, new { @Value = "0" })
+                                }
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Email" class="col-sm-2 control-label">Email</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(m => m.Email, new
+                                   {
+                                       @class = "form-control",
+                                       @id = "email",
+                                       @type = "email",
+                                       @placeholder = "Email"
+                                   })
+                            </div>
+                        </div>
 
-@using (Html.BeginForm("Save", "User", FormMethod.Post, new { @class = "form-horizontal" }))
-{
-    @Html.HiddenFor(m => m.UserID)
-    @Html.ValidationSummary()
-    <div class="form-group">
-        <label for="Name" class="col-sm-2 control-label">Name</label>
-        <div class="col-sm-10">
-            @Html.TextBoxFor(m => m.Name, new
-       {
-           @class = "form-control",
-           @id = "name",
-           @placeholder = "Name"
-       })
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="Username" class="col-sm-2 control-label">Username</label>
-        <div class="col-sm-10">
-            @Html.TextBoxFor(m => m.Username, new
-       {
-           @class = "form-control",
-           @id = "username",
-           @placeholder = "Username"
-       })
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="Password" class="col-sm-2 control-label">Password</label>
-        <div class="col-sm-10">
-            @Html.TextBoxFor(m => m.Password, null, new
-                   {
-                       @class = "form-control",
-                       @id = "txtPassword",
-                       @type = "password",
-                       @placeholder = "Password"
-                   })
-            <span id="spnPassword" class="form-control-addon" style="cursor:pointer;float:right">
-                <i id="icnPassword" class="glyphicon glyphicon-eye-open"></i>
-            </span>
-        </div>
-    </div>
-    <div class="form-group" ng-app="ppcredentials" ng-controller="dropdownCtrl">
-        <label for="Role" class="col-sm-2 control-label">Role {{ selectedItem }} </label> 
-        <div class="col-sm-10">
-            @if (ViewBag.Edit == "Edit")
-            {
-                @Html.TextBoxFor(m => m.Role.RoleName, null, new
-                    {
-                        @class = "form-control",
-                        @id = "role",
-                        @readonly = "readonly"
-                    });
-                @Html.HiddenFor(m => m.Role.RoleID)
-            }
-            else
-            {
-                @Html.DropDownListFor(m => m.Role.RoleName, items, new
-                    {
-                        @class = "form-control",
-                        @id = "role",
-                        @placeholder = "Role",
-                        @onChange = "onChangeDrop"
-                    });
-                @Html.HiddenFor(m => m.Role.RoleID, new { @Value = "0" })
-            }
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="Email" class="col-sm-2 control-label">Email</label>
-        <div class="col-sm-10">
-            @Html.TextBoxFor(m => m.Email, new
-       {
-           @class = "form-control",
-           @id = "email",
-           @type = "email",
-           @placeholder = "Email"
-       })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <input type="submit" value="Save" class="btn btn-success" />
-            <input type="button" value="Cancel" class="btn btn-danger" onclick="location.href='@Url.Action("List","User")';" />
-        </div>
-    </div>
-}
+                        <div class="panel panel-default" ng-show="selectedItem == 'Pricer'">
+                            <div class="panel-heading">
+                                <strong>ProPricer Credentials</strong>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group" id="ppUsernameDiv">
+                                    <label for="Username" class="col-sm-2 control-label">Username</label>
+                                    <div class="col-sm-10">
+                                        @Html.TextBoxFor(m => m.PPCredentials.PPUsername, new
+                                   {
+                                       @class = "form-control",
+                                       @id = "username",
+                                       @placeholder = "Username"
+                                   })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Password" class="col-sm-2 control-label">Password</label>
+                                    <div class="col-sm-10">
+                                        @Html.TextBoxFor(m => m.PPCredentials.PPPassword, null, new
+                                   {
+                                       @class = "form-control",
+                                       @id = "txtPPPassword",
+                                       @type = "password",
+                                       @placeholder = "Password"
+                                   })
+                                        <div id="spnPPPassword" class="form-control-addon" style="cursor:pointer;float:right">
+                                            <div id="icnPPPassword" class="glyphicon glyphicon-eye-open"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="modal-footer">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <input type="submit" value="Save" class="btn btn-success" />
+                            <input type="button" value="Cancel" class="btn btn-danger" onclick="location.href='@Url.Action("List","User")';" />
+                        </div>
+                    </div>
+                    }
+                </div> <!--close panel-body-->
+            </div> <!--close panel panel-default-->
+        </div> <!-- close col-md-6-->
+    </div> <!-- close row-->
+</div> <!--close container-->
