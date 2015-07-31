@@ -1,4 +1,4 @@
-﻿@model EstimatorApp.Domain.Entities.User
+﻿@model EstimatorApp.WebUI.Models.EditViewModel
 @{
     ViewBag.Title = ViewBag.Title;
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -66,24 +66,22 @@
                             <div class="col-sm-10">
                                 @if (ViewBag.Edit == "Edit")
                                 {
-                                    @Html.TextBoxFor(m => m.Role.RoleName, null, new
+                                    @Html.TextBoxFor(m => m.Role, null, new
                                            {
                                                @class = "form-control",
                                                @id = "role",
                                                @readonly = "readonly"
                                            });
-                                    @Html.HiddenFor(m => m.Role.RoleID)
                                 }
                                 else
                                 {
-                                    @Html.DropDownListFor(m => m.Role.RoleName, items, new
+                                    @Html.DropDownListFor(m => m.Role, items, new
                                            {
                                                @class = "form-control",
                                                @id = "role",
                                                @placeholder = "Role",
                                                ng_click = "onChangeDrop()"
                                            });
-                                    @Html.HiddenFor(m => m.Role.RoleID, new { @Value = "0" })
                                 }
                             </div>
                         </div>

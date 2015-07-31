@@ -1,11 +1,13 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using EstimatorApp.Domain.Entities;
-using EstimatorApp.Domain.Abstract;
-using EstimatorApp.WebUI.Models;
 
 namespace EstimatorApp.WebUI.Controllers
 {
+    using Domain.Entities;
+    using Domain.Abstract;
+    using Models;
+    using Infrastructure;
+
     public class UserController : Controller
     {
         private IUsersRepository usersRepository;
@@ -19,25 +21,23 @@ namespace EstimatorApp.WebUI.Controllers
 
         public ViewResult List()
         {
-            ListViewModel model = new ListViewModel { UsersList = usersRepository.UsersList };
-            return View(model);
+            var vmodel = usersRepository.UsersList.ConvertToListViewModel();
+            return View(vmodel);
         }
 
-        public ActionResult Edit(int userID = 0)
+        public ActionResult New()
         {
-            User userItem = new User();
-            if (userID != 0)
-            {
-                ViewBag.Edit = "Edit";
-                ViewBag.Title = "Edit User";
-     
-                userItem = usersRepository.UsersList.FirstOrDefault(m => m.UserID == userID);
-            }
-            else
-            {
-                ViewBag.Title = "Create New User";
-            }
-            return View(userItem);
+            EditViewModel vmodel = new EditViewModel();
+            ViewBag.Title = "Create New User";
+            return View("Edit", vmodel);
+        }
+
+        public ActionResult Edit(int userID)
+        {
+            ViewBag.Edit = "Edit";
+            ViewBag.Title = "Edit User";
+            var vmodel = usersRepository.UsersList.FirstOrDefault(m => m.UserID == userID).ConvertToEditViewModel();
+            return View("Edit", vmodel);
         }
 
         public ActionResult Delete(int userID)
@@ -48,17 +48,24 @@ namespace EstimatorApp.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(User userToSave)
+        public ActionResult Save(EditViewModel userToSave)
         {
-            if (ModelState.IsValid)
-            {
-                usersRepository.SaveUser(userToSave);
+            if (ModelState.IsValid && ValidateUser(userToSave))
+            {        
+                usersRepository.SaveUser(userToSave.ConvertEditViewModelToUser(rolesRepository));
                 return RedirectToAction("List");
             }
             else
             {
                 return View("Edit");
             }
+        }
+
+        private bool ValidateUser(EditViewModel userToSave)
+        {
+            var isValid = usersRepository.FindUser(userToSave.Username) == null? true : false;
+            if (!isValid) { ModelState.AddModelError("Username", "Duplicated Username"); }
+            return isValid;
         }
     }
 }

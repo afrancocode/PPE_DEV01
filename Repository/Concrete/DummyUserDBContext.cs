@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using EstimatorApp.Domain.Entities;
 using EstimatorApp.Domain.Abstract;
-
 namespace EstimatorApp.Repository.Concrete
 {
     public class DummyUserDBContext
@@ -54,6 +53,11 @@ namespace EstimatorApp.Repository.Concrete
         {
             User dbEntry = UsersList.Find(x => x.UserID == userID);
             UsersList.Remove(dbEntry);
+        }
+
+        public User FindUser(string userToFind)
+        {
+            return UsersList.Find(x => x.Username == userToFind);
         }
     }
 }

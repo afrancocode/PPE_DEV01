@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
-using EstimatorApp.Domain.Abstract;
-using EstimatorApp.Domain.Entities;
 
 namespace EstimatorApp.Repository.Concrete
 {
+    using Domain.Abstract;
+    using Domain.Entities;
+
     public class RolesRepository : IRolesRepository
     {
         private DummyRolesDBContext rolesData = new DummyRolesDBContext();

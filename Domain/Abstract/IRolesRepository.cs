@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
-using EstimatorApp.Domain.Entities;
 
 namespace EstimatorApp.Domain.Abstract
 {
+    using Entities;
+
     public interface IRolesRepository
     {
         IEnumerable<Role> RolesList { get; }

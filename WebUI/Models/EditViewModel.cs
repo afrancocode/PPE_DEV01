@@ -1,12 +1,10 @@
-﻿using EstimatorApp.Domain.Entities;
-using EstimatorApp.Domain.Abstract;
-using System.ComponentModel.DataAnnotations;
-using EstimatorApp.Repository.Concrete;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using System.Collections.Generic;
 
 namespace EstimatorApp.WebUI.Models
 {
+    using Domain.Entities;
+
     public class EditViewModel
     {        
         [HiddenInput(DisplayValue = false)]

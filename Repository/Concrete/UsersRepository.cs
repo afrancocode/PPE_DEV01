@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
-using EstimatorApp.Domain.Abstract;
-using EstimatorApp.Domain.Entities;
 
 namespace EstimatorApp.Repository.Concrete
 {
+    using Domain.Abstract;
+    using Domain.Entities;
+
     public class UsersRepository : IUsersRepository
     {
         private DummyUserDBContext userData = new DummyUserDBContext();
@@ -11,6 +12,11 @@ namespace EstimatorApp.Repository.Concrete
         public IEnumerable<User> UsersList
         {
             get { return userData.GetUsersList(); }
+        }
+
+        public User FindUser(string userToFind)
+        {
+            return userData.FindUser(userToFind);
         }
 
         public void SaveUser(User user)

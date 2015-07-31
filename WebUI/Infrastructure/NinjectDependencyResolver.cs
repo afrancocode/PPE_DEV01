@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Ninject;
+using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using Ninject;
-using EstimatorApp.Repository.Concrete;
-using EstimatorApp.Domain.Abstract;
 
 namespace EstimatorApp.WebUI.Infrastructure
 {
+    using Domain.Abstract;
+    using Repository.Concrete;
+
     public class NinjectDependencyResolver : IDependencyResolver
     {
         private IKernel kernel;

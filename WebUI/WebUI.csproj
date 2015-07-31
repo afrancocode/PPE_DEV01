@@ -919,6 +919,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
+    <Compile Include="Infrastructure\ViewModelHelpers.cs" />
     <Compile Include="Models\EditViewModel.cs" />
     <Compile Include="Models\ListViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

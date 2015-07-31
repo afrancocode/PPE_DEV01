@@ -1,4 +1,4 @@
-﻿@model EstimatorApp.WebUI.Models.ListViewModel
+﻿@model IEnumerable<EstimatorApp.WebUI.Models.ListViewModel>
 @{
     ViewBag.Title = "Users List";
 }
@@ -8,7 +8,7 @@
         <div class="col-md-12">
             <h3>Users List</h3>
             <div class="pull-right">
-                @Html.ActionLink("Create New User", "Edit", new { userID = 0 }, new { @class = "btn btn-success btn-sm" })
+                @Html.ActionLink("Create New User", "New", null, new { @class = "btn btn-success btn-sm" })
             </div>
             <div class=".table-responsive">
                 <table id="mytable" class="table table-bordred table-striped">
@@ -21,12 +21,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var user in Model.UsersList)
+                        @foreach (var user in Model)
                         {
                             <tr>
                                 <td>@user.Username</td>
                                 <td>@user.Name</td>
-                                <td>@user.Role.RoleName</td>
+                                <td>@user.Role</td>
                                 <td>@Html.ActionLink("Edit", "Edit", new { userID = user.UserID }) | @Html.ActionLink("Delete", "Delete", new { userID = user.UserID }, new { onclick = "return confirm('Are you sure you wish to delete this user?');" }) </td>
                             </tr>
                         }
