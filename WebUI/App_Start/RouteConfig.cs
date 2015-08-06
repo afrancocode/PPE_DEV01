@@ -12,7 +12,7 @@ namespace WebUI
             routes.MapRoute(
                 name: "",
                 url: "",
-                defaults: new { controller = "User", action = "List", id = UrlParameter.Optional }
+                defaults: new { controller = "Login", action = "Login", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(

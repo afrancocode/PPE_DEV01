@@ -1,0 +1,24 @@
+﻿span { 
+    display: inline-block; 
+    margin: 0 0 3px; 
+    font-size: 1.2em; 
+    font-weight: bold; 
+    float: left; 
+}
+
+.pplogocontainer {
+    height: 60px;
+    text-align: right;
+}
+
+/* resize images */
+.pplogocontainer img {
+    width: auto;
+    height: 60px;
+}
+
+.login-heading{
+    text-align:center;
+}
+
+

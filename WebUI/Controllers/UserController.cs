@@ -3,7 +3,6 @@ using System.Web.Mvc;
 
 namespace EstimatorApp.WebUI.Controllers
 {
-    using Domain.Entities;
     using Domain.Abstract;
     using Models;
     using Infrastructure;
@@ -63,6 +62,8 @@ namespace EstimatorApp.WebUI.Controllers
 
         private bool ValidateUser(EditViewModel userToSave)
         {
+            //Change the validateUser to the DBContext, this validation must be done in that layer.
+            //and what about the Validateuser on the Edit section, this always will be return a duplicated username!! IMPORTANT!!
             var isValid = usersRepository.FindUser(userToSave.Username) == null? true : false;
             if (!isValid) { ModelState.AddModelError("Username", "Duplicated Username"); }
             return isValid;

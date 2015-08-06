@@ -30,5 +30,11 @@ namespace EstimatorApp.WebUI.Infrastructure
             if (vmodel.Role == "Pricer") { user.PPCredentials = vmodel.PPCredentials; }
             return user;
         }
+
+        public static LoginViewModel ConvertToLoginViewModel(this User users)
+        {
+            LoginViewModel vmodel = new LoginViewModel { Username = users.Username, Password = users.Password };
+            return vmodel;
+        }
     }
 }
